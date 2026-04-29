@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>星野源 / SAKEROCK 人生の一曲测试</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 5% 0%, rgba(255,255,255,.98), transparent 30%),
+        radial-gradient(circle at 88% 10%, rgba(255,255,178,.98), transparent 34%),
+        linear-gradient(135deg, #fffde5 0%, #fff27a 52%, #ffd829 100%);
+      color: #251f1a;
+    }
+    button { font: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .wrap { width: min(980px, 100%); min-height: 100dvh; margin: 0 auto; padding: 24px 20px; display: flex; flex-direction: column; }
+    header { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 44px; height: 44px; border-radius: 16px; background: #251f1a; color: #ffe64a; display: grid; place-items: center; box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+    .eyebrow { font-size: 12px; letter-spacing: .26em; color: #9a6c00; font-weight: 900; }
+    h1 { margin: 2px 0 0; font-size: 22px; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .pill-btn { border: 1px solid #d7a900; background: rgba(255,255,255,.82); border-radius: 999px; padding: 10px 16px; min-height: 48px; font-weight: 900; color: #251f1a; box-shadow: 0 4px 12px rgba(0,0,0,.06); }
+    main { flex: 1; display: flex; align-items: center; justify-content: center; padding-bottom: 16px; }
+    .card { width: 100%; background: rgba(255,255,255,.82); border: 1px solid rgba(215,169,0,.55); border-radius: 32px; box-shadow: 0 20px 48px rgba(122,90,0,.18); padding: 36px; backdrop-filter: blur(10px); animation: enter .24s ease both; }
+    @keyframes enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .title { margin: 0 0 30px; font-size: clamp(38px, 7vw, 64px); line-height: 1.08; font-weight: 950; letter-spacing: -0.04em; max-width: 900px; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .answer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .option, .lang-btn { text-align: left; border: 1px solid #ddb217; background: #fffff4; border-radius: 24px; padding: 20px; min-height: 72px; color: #251f1a; font-weight: 900; line-height: 1.5; box-shadow: 0 4px 14px rgba(126,89,18,.07); transition: .16s ease; }
+    .option:hover, .lang-btn:hover, .pill-btn:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 10px 22px rgba(126,89,18,.13); }
+    .lang-code { display: block; color: #a97700; letter-spacing: .2em; font-size: 12px; font-weight: 950; margin-bottom: 8px; }
+    .lang-label { font-size: 24px; font-weight: 950; }
+    .progress-meta { display: flex; justify-content: space-between; color: #9a6c00; font-size: 14px; font-weight: 950; margin-bottom: 10px; }
+    .bar { height: 8px; background: rgba(215,169,0,.26); border-radius: 999px; overflow: hidden; margin-bottom: 28px; }
+    .bar-inner { height: 100%; background: #251f1a; border-radius: 999px; transition: width .25s ease; }
+    .q-title { font-size: clamp(25px, 4.8vw, 42px); line-height: 1.28; margin: 0 0 24px; font-weight: 950; }
+    .result-card { overflow: hidden; padding: 0; }
+    .result-head { background: #251f1a; color: #fff36d; padding: 34px; }
+    .result-head .eyebrow { color: #ffe64a; margin-bottom: 12px; }
+    .song { margin: 0; font-size: clamp(42px, 8vw, 72px); line-height: 1.05; word-break: break-word; letter-spacing: -0.04em; }
+    .artist { color: #ffe64a; font-size: 22px; font-weight: 900; margin-top: 12px; }
+    .result-body { padding: 32px; }
+    .type { display: inline-flex; border-radius: 999px; background: #fff069; color: #6f5100; padding: 9px 16px; font-weight: 950; margin-bottom: 20px; }
+    .desc { font-size: 20px; line-height: 1.85; color: #4e412f; margin: 0 0 24px; }
+    .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+    .tag { border: 1px solid #d7a900; color: #6f5100; background: #fffff4; border-radius: 999px; padding: 8px 13px; font-weight: 850; font-size: 14px; }
+    .primary { border: none; border-radius: 999px; background: #251f1a; color: #fff; padding: 15px 26px; min-height: 52px; font-weight: 950; box-shadow: 0 8px 20px rgba(0,0,0,.16); }
+    .ghost { border: 1px solid #d7a900; border-radius: 999px; background: #fffff4; color: #251f1a; padding: 15px 26px; min-height: 52px; font-weight: 950; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    .nav-row { display: flex; justify-content: flex-start; margin-top: 18px; }
+    .back-question { border: 1px solid #d7a900; border-radius: 999px; background: rgba(255,255,255,.72); color: #251f1a; padding: 12px 18px; min-height: 48px; font-weight: 950; box-shadow: 0 4px 12px rgba(0,0,0,.06); }
+    .back-question:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 10px 22px rgba(126,89,18,.13); }
+    @media (max-width: 720px) {
+      .wrap { padding: 20px 16px; }
+      header { flex-direction: column; }
+      .actions { justify-content: flex-start; }
+      .card { padding: 26px; border-radius: 28px; }
+      .grid3, .answer-grid { grid-template-columns: 1fr; }
+      .option { min-height: 56px; }
+      .primary, .ghost { width: 100%; }
+      .result-head, .result-body { padding: 26px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">♪</div>
+        <div>
+          <div class="eyebrow">GEN HOSHINO / SAKEROCK</div>
+          <h1 id="headerTitle">人生の一曲测试</h1>
+        </div>
+      </div>
+      <div class="actions" id="actions"></div>
+    </header>
+    <main id="app"></main>
+  </div>
+
+  <script>
+    const languages = [{ key: "zh", label: "中文" }, { key: "ja", label: "日本語" }, { key: "en", label: "English" }];
+    const ui = {"zh": {"headerTitle": "人生の一曲测试", "reset": "回到开头", "changeLanguage": "切换语言", "chooseLanguageTitle": "请选择测试语言", "startTitle": "你的人生里正在响哪一首歌？", "startButton": "开始测试", "resultEyebrow": "YOUR LIFE SONG", "copyResult": "复制结果", "copied": "已复制", "again": "再测一次", "sharePrefix": "我的人生一曲是", "shareTag": "#人生の一曲测试 #星野源 #SAKEROCK", "yes": "是", "no": "否", "maybe": "不一定", "prev": "返回上一题"}, "ja": {"headerTitle": "人生の一曲診断", "reset": "最初へ", "changeLanguage": "言語を変える", "chooseLanguageTitle": "診断する言語を選んでください", "startTitle": "あなたの人生に鳴っている一曲は？", "startButton": "診断をはじめる", "resultEyebrow": "YOUR LIFE SONG", "copyResult": "結果をコピー", "copied": "コピーしました", "again": "もう一度診断する", "sharePrefix": "私の人生の一曲は", "shareTag": "#人生の一曲診断 #星野源 #SAKEROCK", "yes": "はい", "no": "いいえ", "maybe": "場合による", "prev": "前の質問へ"}, "en": {"headerTitle": "Life Song Quiz", "reset": "Back to start", "changeLanguage": "Change language", "chooseLanguageTitle": "Choose your quiz language", "startTitle": "Which song is playing in your life?", "startButton": "Start quiz", "resultEyebrow": "YOUR LIFE SONG", "copyResult": "Copy result", "copied": "Copied", "again": "Try again", "sharePrefix": "My life song is", "shareTag": "#LifeSongQuiz #GenHoshino #SAKEROCK", "yes": "Yes", "no": "No", "maybe": "Depends", "prev": "Previous question"}};
+    const results = [{"id": "continues", "artist": "星野源", "song": "Continues", "scores": {"life": 4, "forward": 5, "solitude": 2, "humor": 2, "body": 2, "light": 4, "chaos": 1, "memory": 2, "intimacy": 3, "rebuild": 4}, "zh": ["继续走下去的人", "你很懂“结束”是什么，所以更珍惜还能继续的东西。你的生命底色不是大声胜利，而是每天把自己重新捡起来，再往前走一点。", ["继续", "生活", "安静的力量"]], "ja": ["継続する人", "終わりを知っているからこそ、続くことを選べる。あなたの人生の一曲は、派手な勝利よりも、毎日の歩幅を肯定する歌。", ["続ける", "生活", "静かな強さ"]], "en": ["The one who keeps going", "You understand what endings mean, which is why you cherish anything that can still continue. Your life song is not about loud victory, but about picking yourself up every day and taking one more step.", ["continuing", "daily life", "quiet strength"]]}, {"id": "kigeki", "artist": "星野源", "song": "喜劇", "scores": {"life": 4, "forward": 3, "solitude": 2, "humor": 4, "body": 1, "light": 5, "chaos": 1, "memory": 2, "intimacy": 5, "rebuild": 3}, "zh": ["给自己建造归处的人", "你重视的不是血缘、标签或标准答案，而是那些被你选择、被你珍惜的关系。你的人生像一出温柔的喜剧，在混乱里慢慢长出可以回去的地方。", ["归处", "关系", "温柔"]], "ja": ["居場所を作る人", "血縁でも肩書きでもなく、選び取った関係を大事にする人。あなたの人生は、誰かと笑える場所を少しずつ作っていく喜劇。", ["居場所", "関係", "やさしさ"]], "en": ["The one who builds a place to return to", "What matters to you is not bloodline, labels, or standard answers, but the relationships you choose and protect. Your life is a gentle comedy, slowly creating a place where you can laugh with someone.", ["belonging", "relationships", "kindness"]]}, {"id": "idea", "artist": "星野源", "song": "アイデア", "scores": {"life": 5, "forward": 5, "solitude": 2, "humor": 3, "body": 3, "light": 5, "chaos": 2, "memory": 2, "intimacy": 2, "rebuild": 5}, "zh": ["重新发明早晨的人", "你不会假装痛苦不存在，但你会试着从里面找出新的出口。你不是被动等待今天过去的人，而是会亲手把今天稍微改写一点的人。", ["早晨", "发明", "重启"]], "ja": ["朝を発明する人", "しんどさを否定せず、そこから別の景色を作る。あなたは『今日』をただ受け取るより、自分の手で少し変えていくタイプ。", ["朝", "発明", "再起動"]], "en": ["The one who reinvents the morning", "You do not pretend pain is not there. Instead, you try to make another view from inside it. You do not simply receive today; you rewrite it a little with your own hands.", ["morning", "invention", "restart"]]}, {"id": "bakemono", "artist": "星野源", "song": "化物", "scores": {"life": 3, "forward": 4, "solitude": 3, "humor": 2, "body": 5, "light": 3, "chaos": 4, "memory": 2, "intimacy": 2, "rebuild": 4}, "zh": ["带着矛盾奔跑的人", "你身上有明亮，也有违和；有脆弱，也有冲出去的能量。你不太相信完美答案，你更相信活生生的、不整齐的推进力。", ["矛盾", "疾走", "生命感"]], "ja": ["矛盾を連れて走る人", "明るさの裏にある違和感も、弱さも、全部込みで前に出る。あなたは整った答えより、生々しい推進力を信じる人。", ["矛盾", "疾走", "生々しさ"]], "en": ["The one who runs with contradictions", "You carry brightness and discomfort, weakness and momentum, all at once. You trust raw, uneven propulsion more than a perfectly arranged answer.", ["contradiction", "rush", "raw life"]]}, {"id": "sun", "artist": "星野源", "song": "SUN", "scores": {"life": 3, "forward": 4, "solitude": 1, "humor": 4, "body": 5, "light": 5, "chaos": 1, "memory": 1, "intimacy": 3, "rebuild": 3}, "zh": ["把光带进现场的人", "你不是没有阴影，而是知道在阴影里也可以开一盏灯。你擅长把沉重的空气撬开一点，让身体先于大脑恢复呼吸。", ["阳光", "舞动", "恢复"]], "ja": ["光を持ち込む人", "重い空気の中にも、ぱっと踊れる入口を作る。あなたの強さは、場を明るくすることを軽く見ないところ。", ["陽気", "ダンス", "回復"]], "en": ["The one who brings light into the room", "It is not that you have no shadows. You simply know how to open a small door to dancing inside them. Your strength is taking brightness seriously.", ["sunlight", "dance", "recovery"]]}, {"id": "weekend", "artist": "星野源", "song": "Week End", "scores": {"life": 3, "forward": 3, "solitude": 1, "humor": 4, "body": 5, "light": 4, "chaos": 2, "memory": 1, "intimacy": 3, "rebuild": 2}, "zh": ["等待周末庆典的人", "你会认真疲惫，也会认真快乐。你不是逃避日常，而是因为日常太具体，所以更懂得那种短暂放电的珍贵。", ["周末", "庆典", "身体"]], "ja": ["祝祭を待つ人", "きちんと疲れて、きちんと浮かれる。あなたは日常を抜け出す瞬間のために、ちゃんと日常を生きる人。", ["週末", "祝祭", "身体"]], "en": ["The one waiting for the weekend celebration", "You know how to be properly tired and properly delighted. You do not escape everyday life; you understand why brief flashes of release matter because everyday life is so real.", ["weekend", "celebration", "body"]]}, {"id": "family-song", "artist": "星野源", "song": "Family Song", "scores": {"life": 5, "forward": 2, "solitude": 2, "humor": 3, "body": 1, "light": 4, "chaos": 1, "memory": 3, "intimacy": 5, "rebuild": 2}, "zh": ["质疑普通、也拥抱普通的人", "你不会轻易接受别人定义好的幸福模板，但你依然相信生活里那些真实的温度。对你来说，重要的不是正确的形式，而是里面的人。", ["生活", "关系", "包容"]], "ja": ["普通を疑い、普通を抱く人", "形に名前をつけるより、その中にいる人の温度を見ている。あなたにとって大切なのは、正解の家族ではなく、そこにある生活。", ["生活", "関係", "包容"]], "en": ["The one who questions and embraces the ordinary", "You do not easily accept a ready-made model of happiness, but you still believe in the real warmth inside daily life. What matters is not the correct form, but the people within it.", ["daily life", "relationships", "acceptance"]]}, {"id": "koi", "artist": "星野源", "song": "恋", "scores": {"life": 3, "forward": 3, "solitude": 1, "humor": 5, "body": 4, "light": 5, "chaos": 1, "memory": 1, "intimacy": 5, "rebuild": 2}, "zh": ["让生活跳起舞的人", "你相信人与人相遇本身就足够有趣。对你来说，恋不只是一种关系，也是一种让平凡生活突然响起音乐的能力。", ["恋", "生活", "流行感"]], "ja": ["生活を踊らせる人", "恋愛だけに閉じず、人と人が出会う面白さを信じている。あなたは日常の中に、急に音楽が鳴り出す瞬間を持っている。", ["恋", "生活", "ポップ"]], "en": ["The one who makes daily life dance", "You believe the act of people encountering each other is interesting enough on its own. For you, love is not only a relationship, but the ability to make ordinary life suddenly play music.", ["love", "daily life", "pop"]]}, {"id": "sakura-no-mori", "artist": "星野源", "song": "桜の森", "scores": {"life": 2, "forward": 3, "solitude": 2, "humor": 3, "body": 5, "light": 4, "chaos": 3, "memory": 2, "intimacy": 3, "rebuild": 2}, "zh": ["沉进多幸感的人", "你喜欢明亮里带一点妖异，快乐里带一点余韵。比起单纯的开心，你更容易被有层次、有夜色、有后劲的愉悦吸引。", ["多幸感", "夜色", "余韵"]], "ja": ["多幸感に沈む人", "明るいのに少し妖しく、楽しいのにどこか切ない。あなたは単純なハッピーより、奥行きのある快楽に惹かれる人。", ["多幸感", "夜", "余韻"]], "en": ["The one who sinks into euphoria", "You are drawn to brightness with a strange edge, happiness with an aftertaste. Simple joy is not enough; you like pleasure with layers, night air, and lingering resonance.", ["euphoria", "night", "afterglow"]]}, {"id": "crazy-crazy", "artist": "星野源", "song": "Crazy Crazy", "scores": {"life": 2, "forward": 3, "solitude": 3, "humor": 5, "body": 4, "light": 3, "chaos": 5, "memory": 2, "intimacy": 2, "rebuild": 2}, "zh": ["奇怪但漂亮的人", "你并不总想显得正常。比起规整无误，你更想保留一点偏差、一点即兴、一点无法被完全解释的节奏。", ["偏差", "洒脱", "玩心"]], "ja": ["変なまま美しい人", "まともでいるより、少しズレたまま鳴っていたい。あなたの人生には、説明しきれないリズムが必要。", ["ズレ", "洒脱", "遊び"]], "en": ["The strange and beautiful one", "You do not always want to look normal. Rather than being perfectly tidy, you want to keep a little deviation, improvisation, and rhythm that cannot be fully explained.", ["deviation", "playfulness", "style"]]}, {"id": "film", "artist": "星野源", "song": "フィルム", "scores": {"life": 4, "forward": 2, "solitude": 4, "humor": 1, "body": 1, "light": 2, "chaos": 2, "memory": 5, "intimacy": 2, "rebuild": 3}, "zh": ["重新剪辑记忆的人", "你不会简单地忘掉过去，而是会一次次回看、重排、重新理解。伤口和风景都会被你慢慢放回自己的故事里。", ["记忆", "电影", "疼痛"]], "ja": ["記憶を編集する人", "過去を忘れるのではなく、何度も見返して意味を変えていく。あなたは傷も景色も、自分の物語として抱え直せる人。", ["記憶", "映画", "痛み"]], "en": ["The one who edits memory", "You do not simply forget the past. You replay it, rearrange it, and understand it again. Wounds and scenery slowly return to your own story.", ["memory", "film", "pain"]]}, {"id": "shiranai", "artist": "星野源", "song": "知らない", "scores": {"life": 4, "forward": 2, "solitude": 5, "humor": 1, "body": 1, "light": 2, "chaos": 2, "memory": 5, "intimacy": 1, "rebuild": 2}, "zh": ["凝视失去的人", "你可以把不明白的事，先放在不明白的位置。你需要的不是轻易的安慰，而是某种慢慢抵达的、安静的理解。", ["失去", "沉默", "余白"]], "ja": ["喪失を見つめる人", "わからないものを、わからないまま大事にできる。あなたは簡単な救いより、静かな納得にたどり着きたい人。", ["喪失", "沈黙", "余白"]], "en": ["The one who looks at loss", "You can let the unknown remain unknown for a while. What you need is not easy comfort, but a quiet understanding that arrives slowly.", ["loss", "silence", "space"]]}, {"id": "kudaranai", "artist": "星野源", "song": "くだらないの中に", "scores": {"life": 5, "forward": 1, "solitude": 3, "humor": 2, "body": 1, "light": 3, "chaos": 1, "memory": 3, "intimacy": 5, "rebuild": 1}, "zh": ["相信微小日常的人", "你不一定需要大事件来证明爱与人生。那些看起来无关紧要的瞬间，反而最能让你确认：自己确实活在某段珍贵的时间里。", ["细小", "爱", "日常"]], "ja": ["ささやかさを信じる人", "大事件ではなく、どうでもいい瞬間に本当の愛情を見つける。あなたの人生の核は、取るに足らない日々の中にある。", ["ささやか", "愛情", "日常"]], "en": ["The one who believes in tiny everyday moments", "You do not need grand events to prove love or life. Seemingly meaningless moments are often where you confirm that you are living inside something precious.", ["small things", "love", "daily life"]]}, {"id": "barabara", "artist": "星野源", "song": "ばらばら", "scores": {"life": 4, "forward": 1, "solitude": 5, "humor": 1, "body": 1, "light": 2, "chaos": 2, "memory": 3, "intimacy": 4, "rebuild": 1}, "zh": ["想要各自并肩的人", "你不觉得融为一体才叫亲密。你更相信，两个独立的人可以保持距离，也可以在某个时刻温柔地并排站着。", ["距离", "孤独", "关系"]], "ja": ["ひとり同士でいたい人", "一つになることだけが愛ではない。あなたは距離のある関係、別々のまま並ぶことの美しさを知っている人。", ["距離", "孤独", "関係"]], "en": ["The one who wants to stand apart, together", "You do not think intimacy has to mean becoming one. You believe two independent people can keep their distance and still stand gently side by side.", ["distance", "solitude", "connection"]]}, {"id": "yume-no-sotoe", "artist": "星野源", "song": "夢の外へ", "scores": {"life": 4, "forward": 4, "solitude": 2, "humor": 2, "body": 3, "light": 4, "chaos": 1, "memory": 1, "intimacy": 2, "rebuild": 4}, "zh": ["回到现实里的人", "你会做梦，但不会永远停在梦里。你真正厉害的地方，是能睁开眼睛，把脚伸向现实的那一边。", ["现实", "醒来", "前进"]], "ja": ["現実へ帰ってくる人", "夢を見るだけでは終わらない。あなたはちゃんと目を開けて、現実のほうへ足を出せる人。", ["現実", "目覚め", "前進"]], "en": ["The one who returns to reality", "You dream, but you do not stay inside the dream forever. Your strength is opening your eyes and stepping toward reality.", ["reality", "awakening", "moving forward"]]}, {"id": "jigoku", "artist": "星野源", "song": "地獄でなぜ悪い", "scores": {"life": 4, "forward": 4, "solitude": 3, "humor": 5, "body": 4, "light": 2, "chaos": 5, "memory": 2, "intimacy": 1, "rebuild": 5}, "zh": ["在地狱里也要发出声音的人", "哪怕身处很糟糕的地方，你也不愿把自己完全交出去。你会把绝望变成燃料，把荒唐变成一种继续活着的力气。", ["逆境", "幽默", "生命力"]], "ja": ["地獄でも鳴らす人", "最悪の場所にいても、そこで音を鳴らすことはできる。あなたは絶望をネタにするのではなく、燃料に変える人。", ["逆境", "ユーモア", "生命力"]], "en": ["The one who makes sound even in hell", "Even in the worst place, you refuse to hand yourself over completely. You turn despair into fuel and absurdity into the strength to keep living.", ["adversity", "humor", "life force"]]}, {"id": "star", "artist": "星野源", "song": "Star", "scores": {"life": 4, "forward": 4, "solitude": 4, "humor": 1, "body": 1, "light": 5, "chaos": 1, "memory": 3, "intimacy": 2, "rebuild": 4}, "zh": ["望着远方光亮的人", "你知道有些东西不是马上就能抵达，但你依然愿意抬头看。你的希望不是喊出来的，更像是一颗被你小心保存的星。", ["星", "希望", "祈愿"]], "ja": ["遠くの光を見る人", "すぐ届かないものを、届かないまま見上げられる。あなたは希望を大声で語るより、小さく灯し続ける人。", ["星", "希望", "祈り"]], "en": ["The one who looks toward distant light", "You know some things cannot be reached immediately, yet you still look up. Your hope is not shouted; it is a small star you carefully keep alive.", ["star", "hope", "wish"]]}, {"id": "pop-virus", "artist": "星野源", "song": "Pop Virus", "scores": {"life": 3, "forward": 4, "solitude": 2, "humor": 4, "body": 5, "light": 4, "chaos": 4, "memory": 1, "intimacy": 3, "rebuild": 3}, "zh": ["被流行感染的人", "你不把流行看成轻薄的东西。你知道真正厉害的pop可以钻进生活、身体和情绪里，像病毒一样改变人对世界的反应。", ["流行", "感染", "身体反应"]], "ja": ["ポップに感染する人", "あなたはポップを軽いものだと思っていない。本当に強いポップは生活や身体や感情に入り込み、世界への反応を変えてしまう。", ["ポップ", "感染", "身体反応"]], "en": ["The one infected by pop", "You do not see pop as something shallow. Real pop slips into daily life, the body, and emotion, changing the way you react to the world.", ["pop", "infection", "body response"]]}, {"id": "same-thing", "artist": "星野源", "song": "Same Thing", "scores": {"life": 2, "forward": 3, "solitude": 3, "humor": 5, "body": 3, "light": 2, "chaos": 5, "memory": 1, "intimacy": 2, "rebuild": 2}, "zh": ["把厌倦说出口的人", "你不想总是装作乖巧、懂事、积极。你需要一首能把烦躁、脏话、重复感都说出来的歌，让自己从过度体面里逃出来。", ["厌倦", "反骨", "出口"]], "ja": ["うんざりを言葉にする人", "いつも行儀よく、前向きで、物分かりよくいたいわけではない。苛立ちや反骨や繰り返しの感覚を、そのまま外へ逃がす歌が必要な人。", ["うんざり", "反骨", "出口"]], "en": ["The one who says the boredom out loud", "You do not always want to be polite, reasonable, and positive. You need a song that lets irritation, rebellion, and repetition escape from being too well-behaved.", ["boredom", "rebellion", "release"]]}, {"id": "fushigi", "artist": "星野源", "song": "不思議", "scores": {"life": 4, "forward": 2, "solitude": 3, "humor": 1, "body": 1, "light": 4, "chaos": 2, "memory": 3, "intimacy": 5, "rebuild": 2}, "zh": ["把爱看成不可思议的人", "你不急着给感情下定义。真正让你动心的，是那些无法完全解释、却确实改变了自己的时刻。", ["爱", "不可思议", "亲密"]], "ja": ["愛を不思議として受け取る人", "感情に急いで名前をつけない人。あなたが惹かれるのは、説明しきれないのに確かに自分を変えてしまう瞬間。", ["愛", "不思議", "親密"]], "en": ["The one who receives love as a mystery", "You do not rush to define feelings. What moves you is the moment that cannot be fully explained, yet undeniably changes you.", ["love", "mystery", "intimacy"]]}, {"id": "souzo", "artist": "星野源", "song": "創造", "scores": {"life": 3, "forward": 5, "solitude": 1, "humor": 4, "body": 5, "light": 5, "chaos": 4, "memory": 1, "intimacy": 2, "rebuild": 5}, "zh": ["把世界重新捏一遍的人", "你不是只想适应规则的人。你更想拆开、重组、发明，把眼前的世界改造成一个能让自己兴奋起来的版本。", ["创造", "重组", "游戏感"]], "ja": ["世界を作り直す人", "ただルールに合わせるだけでは満足しない人。壊して、組み替えて、発明して、自分がわくわくできる世界に変えていく。", ["創造", "再構築", "遊び"]], "en": ["The one who remakes the world", "You are not here just to fit the rules. You want to take things apart, rebuild them, and invent a version of the world that makes you excited.", ["creation", "rebuild", "play"]]}, {"id": "cube", "artist": "星野源", "song": "Cube", "scores": {"life": 2, "forward": 3, "solitude": 4, "humor": 2, "body": 4, "light": 1, "chaos": 5, "memory": 2, "intimacy": 1, "rebuild": 4}, "zh": ["在封闭空间里找出口的人", "你很熟悉被困住的感觉，也很熟悉从规则缝隙里找出口的本能。越是压迫，你越会长出一种锋利的反应。", ["封闭", "出口", "锋利"]], "ja": ["閉じた空間で出口を探す人", "閉じ込められる感覚と、その隙間から出口を探す本能を知っている人。圧迫されるほど、鋭い反応が立ち上がる。", ["閉鎖", "出口", "鋭さ"]], "en": ["The one who finds an exit inside a closed room", "You know the feeling of being trapped, and you know the instinct to search for a gap in the rules. The more compressed things get, the sharper your response becomes.", ["closed room", "exit", "edge"]]}, {"id": "hikari-no-ato", "artist": "星野源", "song": "光の跡", "scores": {"life": 4, "forward": 4, "solitude": 4, "humor": 1, "body": 1, "light": 5, "chaos": 1, "memory": 5, "intimacy": 3, "rebuild": 4}, "zh": ["追着光的痕迹走的人", "你不是只看见失去的人。你也会记得那些曾经照亮过你的东西，并沿着它留下的痕迹，把自己带回明天。", ["光", "痕迹", "明天"]], "ja": ["光の跡をたどる人", "失ったものだけを見る人ではない。かつて自分を照らしたものを覚えていて、その跡をたどりながら明日へ戻っていく。", ["光", "跡", "明日"]], "en": ["The one who follows traces of light", "You do not only see what has been lost. You remember what once lit you up, and you follow its trace back toward tomorrow.", ["light", "trace", "tomorrow"]]}, {"id": "eureka", "artist": "星野源", "song": "Eureka", "scores": {"life": 4, "forward": 4, "solitude": 3, "humor": 2, "body": 2, "light": 5, "chaos": 2, "memory": 3, "intimacy": 3, "rebuild": 5}, "zh": ["终于想通一点的人", "你的人生不一定靠巨大转折改变，更多时候是某个瞬间突然“啊，原来如此”。你珍惜这种迟来的明亮。", ["顿悟", "明亮", "重新理解"]], "ja": ["ふと腑に落ちる人", "人生は大きな転機だけで変わるわけではない。ある瞬間に『ああ、そうか』と光が差す。あなたはその遅れてくる明るさを大事にする人。", ["発見", "明るさ", "再理解"]], "en": ["The one who finally understands a little", "Your life does not only change through huge turning points. Sometimes a quiet “oh, now I see” is enough. You treasure that late-arriving brightness.", ["realization", "light", "new understanding"]]}, {"id": "aint-nobody-know", "artist": "星野源", "song": "Ain't Nobody Know", "scores": {"life": 2, "forward": 2, "solitude": 5, "humor": 1, "body": 3, "light": 2, "chaos": 3, "memory": 3, "intimacy": 5, "rebuild": 1}, "zh": ["把秘密留在夜里的人", "你有不想被所有人理解的部分。那些暧昧、私密、低声的情绪，对你来说不是需要解释清楚的谜题，而是只属于某段夜色的真相。", ["秘密", "夜", "亲密"]], "ja": ["秘密を夜に残す人", "誰にでも理解されたいわけではない。曖昧で、私的で、低い声の感情は、説明するための謎ではなく、ある夜だけの真実。", ["秘密", "夜", "親密"]], "en": ["The one who leaves secrets in the night", "There are parts of you that do not need to be understood by everyone. Ambiguous, private, low-voiced feelings are not puzzles to solve; they are truths that belong to a certain night.", ["secret", "night", "intimacy"]]}, {"id": "emerald-music", "artist": "SAKEROCK", "song": "Emerald Music", "scores": {"life": 2, "forward": 4, "solitude": 2, "humor": 3, "body": 5, "light": 4, "chaos": 2, "memory": 2, "intimacy": 1, "rebuild": 3}, "zh": ["在语言之外摇晃的人", "你很珍惜那些还没来得及变成语言的情绪。比起明确的意义，你更容易先被气味、光线、节奏和身体反应击中。", ["器乐", "高扬", "风景"]], "ja": ["言葉の外で揺れる人", "言葉にする前の気配、説明できない高揚を大事にする人。あなたの人生の一曲は、意味より先に身体が反応する音。", ["インスト", "高揚", "風景"]], "en": ["The one who sways beyond language", "You treasure emotions before they become words. More than clear meaning, you are often struck first by smell, light, rhythm, and the body’s response.", ["instrumental", "uplift", "landscape"]]}, {"id": "company", "artist": "SAKEROCK", "song": "会社員", "scores": {"life": 3, "forward": 2, "solitude": 2, "humor": 5, "body": 3, "light": 3, "chaos": 4, "memory": 1, "intimacy": 1, "rebuild": 2}, "zh": ["有点脱力的现实派", "你不是不懂现实的重，而是不会用太正经的姿态被它压住。你会用一点斜着看的幽默，穿过那些不得不做的日子。", ["现实", "脱力", "幽默"]], "ja": ["とぼけた現実派", "大げさに泣かず、大げさに語らず、変なユーモアで日々を乗り切る。あなたは現実の重さを、少し斜めから見る人。", ["現実", "脱力", "ユーモア"]], "en": ["The slightly detached realist", "You understand how heavy reality can be, but you refuse to be crushed by taking it too solemnly. You move through unavoidable days with a slanted sense of humor.", ["reality", "deadpan", "humor"]]}, {"id": "memories", "artist": "SAKEROCK", "song": "Memories", "scores": {"life": 3, "forward": 2, "solitude": 5, "humor": 2, "body": 2, "light": 3, "chaos": 1, "memory": 5, "intimacy": 2, "rebuild": 2}, "zh": ["在记忆里慢慢走的人", "你不是只会怀旧的人，而是会通过过去重新看见现在的自己。你记得很多东西，也许不常说，但都还在心里发着光。", ["记忆", "余白", "郷愁"]], "ja": ["記憶の中を歩く人", "懐かしさに浸るだけではなく、そこから今の自分を見つけ直す。あなたは言葉少なに、でも深く覚えている人。", ["記憶", "余白", "郷愁"]], "en": ["The one who walks through memory", "You are not merely nostalgic. You look back in order to see who you are now. You remember many things, perhaps quietly, but they are still glowing inside you.", ["memory", "space", "nostalgia"]]}, {"id": "muda", "artist": "SAKEROCK", "song": "MUDA", "scores": {"life": 2, "forward": 3, "solitude": 2, "humor": 5, "body": 4, "light": 3, "chaos": 5, "memory": 1, "intimacy": 1, "rebuild": 3}, "zh": ["认真做无用之事的人", "你知道“没用”不等于没有价值。那些绕远路、瞎折腾、看似多余的瞬间，反而最能证明你还没有被效率彻底驯服。", ["无用", "玩心", "反效率"]], "ja": ["無駄を本気でやる人", "無駄は価値がない、とは思っていない人。遠回りや寄り道や余計な瞬間にこそ、効率に飼いならされていない自分がいる。", ["無駄", "遊び", "反効率"]], "en": ["The one who takes useless things seriously", "You know useless does not mean worthless. Detours, messing around, and excessive moments prove that efficiency has not fully tamed you.", ["useless", "play", "anti-efficiency"]]}, {"id": "sayonara", "artist": "SAKEROCK", "song": "SAYONARA", "scores": {"life": 3, "forward": 3, "solitude": 5, "humor": 1, "body": 2, "light": 3, "chaos": 1, "memory": 5, "intimacy": 3, "rebuild": 4}, "zh": ["把告别放进口袋的人", "你并不擅长轻飘飘地说再见。每一次离开都会留下重量，但你也会把它收好，带着它继续往前走。", ["告别", "余韵", "继续"]], "ja": ["さよならをポケットに入れる人", "軽く別れを言うのが得意な人ではない。離れるたびに重さは残るけれど、それをしまって、持ったまま歩いていける人。", ["別れ", "余韻", "続く"]], "en": ["The one who carries goodbye in a pocket", "You are not good at saying goodbye lightly. Each departure leaves weight, but you can fold it away and keep walking with it.", ["goodbye", "afterglow", "continuing"]]}];
+    const questions = [{"zh": "通勤或出门路上，你会固定听同一个歌单吗？", "ja": "通勤や外出中、決まったプレイリストを聴くことが多い？", "en": "On commutes or outings, do you often listen to the same playlist?", "options": [{"key": "yes", "scores": {"life": 4, "memory": 2}}, {"key": "no", "scores": {"chaos": 2, "body": 2}}, {"key": "maybe", "scores": {"life": 1, "forward": 1}}]}, {"zh": "听到喜欢的前奏，你会立刻调大音量吗？", "ja": "好きなイントロが来たら、すぐ音量を上げる？", "en": "When a favorite intro starts, do you immediately turn up the volume?", "options": [{"key": "yes", "scores": {"body": 4, "light": 3}}, {"key": "no", "scores": {"memory": 1, "solitude": 1}}, {"key": "maybe", "scores": {"body": 1, "light": 1}}]}, {"zh": "你会为了某首歌特意绕路多走一会儿吗？", "ja": "一曲のために、あえて遠回りして歩くことがある？", "en": "Would you take a longer route just to keep listening to a song?", "options": [{"key": "yes", "scores": {"forward": 3, "memory": 3, "light": 2}}, {"key": "no", "scores": {"life": 2, "rebuild": 1}}, {"key": "maybe", "scores": {"memory": 1, "forward": 1}}]}, {"zh": "看到天气很好，你会临时决定出门吗？", "ja": "天気が良いと、急に外へ出ることを決める？", "en": "When the weather is nice, do you suddenly decide to go out?", "options": [{"key": "yes", "scores": {"forward": 4, "light": 4}}, {"key": "no", "scores": {"life": 2, "solitude": 2}}, {"key": "maybe", "scores": {"light": 1, "forward": 1}}]}, {"zh": "旅行前，你会把交通路线和时间表查得很细吗？", "ja": "旅行前、交通ルートや時刻をかなり細かく調べる？", "en": "Before a trip, do you check routes and schedules in detail?", "options": [{"key": "yes", "scores": {"life": 4, "rebuild": 3}}, {"key": "no", "scores": {"chaos": 3, "humor": 1}}, {"key": "maybe", "scores": {"life": 1, "forward": 1}}]}, {"zh": "计划被打乱时，你能很快改路线继续走吗？", "ja": "予定が崩れても、すぐ別ルートに切り替えられる？", "en": "When plans change, can you quickly switch routes and keep going?", "options": [{"key": "yes", "scores": {"forward": 4, "rebuild": 4}}, {"key": "no", "scores": {"solitude": 2, "chaos": 2}}, {"key": "maybe", "scores": {"rebuild": 1, "forward": 1}}]}, {"zh": "压力大时，你会先整理桌面、房间或包吗？", "ja": "ストレスが強いとき、机・部屋・鞄を先に整える？", "en": "When stressed, do you first tidy your desk, room, or bag?", "options": [{"key": "yes", "scores": {"life": 5, "rebuild": 3}}, {"key": "no", "scores": {"chaos": 2, "humor": 1}}, {"key": "maybe", "scores": {"life": 1, "rebuild": 1}}]}, {"zh": "你会把演出、旅行、活动的票根或截图保存起来吗？", "ja": "公演・旅行・イベントのチケットやスクショを保存する？", "en": "Do you save tickets or screenshots from shows, trips, or events?", "options": [{"key": "yes", "scores": {"memory": 5, "life": 2}}, {"key": "no", "scores": {"forward": 2, "chaos": 1}}, {"key": "maybe", "scores": {"memory": 2}}]}, {"zh": "遇到很荒唐的事，你会先截图或转发给朋友吐槽吗？", "ja": "理不尽なことが起きたら、まずスクショして友達に送る？", "en": "When something absurd happens, do you first screenshot or send it to a friend?", "options": [{"key": "yes", "scores": {"humor": 4, "chaos": 3, "intimacy": 2}}, {"key": "no", "scores": {"solitude": 3, "life": 1}}, {"key": "maybe", "scores": {"humor": 1, "intimacy": 1}}]}, {"zh": "你会把“无用但可爱”的东西加入收藏夹吗？", "ja": "役に立たないけど可愛いものをお気に入りに入れる？", "en": "Do you save useless-but-cute things to favorites?", "options": [{"key": "yes", "scores": {"humor": 3, "life": 2, "chaos": 2}}, {"key": "no", "scores": {"forward": 2, "rebuild": 1}}, {"key": "maybe", "scores": {"life": 1, "humor": 1}}]}, {"zh": "一首歌听上头后，你会单曲循环超过十遍吗？", "ja": "ハマった曲を10回以上リピートする？", "en": "When hooked on a song, do you loop it more than ten times?", "options": [{"key": "yes", "scores": {"body": 3, "memory": 4, "chaos": 1}}, {"key": "no", "scores": {"life": 2, "forward": 1}}, {"key": "maybe", "scores": {"memory": 1, "body": 1}}]}, {"zh": "你会因为一句歌词去查完整歌词吗？", "ja": "一行の歌詞が気になって、全文を調べる？", "en": "If one lyric catches you, do you look up the full lyrics?", "options": [{"key": "yes", "scores": {"memory": 3, "life": 2, "solitude": 2}}, {"key": "no", "scores": {"body": 2, "light": 1}}, {"key": "maybe", "scores": {"memory": 1}}]}, {"zh": "你会为了确认一个细节反复倒回去听吗？", "ja": "細部を確かめるために、何度も巻き戻して聴く？", "en": "Do you rewind repeatedly to confirm a small detail?", "options": [{"key": "yes", "scores": {"memory": 4, "life": 3}}, {"key": "no", "scores": {"body": 2, "chaos": 1}}, {"key": "maybe", "scores": {"memory": 1, "life": 1}}]}, {"zh": "看现场时，你会特别在意每首歌之间的转场吗？", "ja": "ライブで曲間や転換をかなり気にする？", "en": "At a live show, do you pay close attention to transitions between songs?", "options": [{"key": "yes", "scores": {"memory": 3, "life": 3, "rebuild": 1}}, {"key": "no", "scores": {"body": 3, "light": 1}}, {"key": "maybe", "scores": {"memory": 1, "body": 1}}]}, {"zh": "人很多的场合，你会先观察出口和动线吗？", "ja": "人が多い場所で、まず出口や動線を見る？", "en": "In crowded places, do you first check exits and routes?", "options": [{"key": "yes", "scores": {"life": 3, "rebuild": 3, "solitude": 1}}, {"key": "no", "scores": {"body": 2, "light": 2}}, {"key": "maybe", "scores": {"life": 1}}]}, {"zh": "聚会结束后，你会在回家路上重新复盘刚才发生的事吗？", "ja": "集まりの帰り道に、さっきの出来事を思い返す？", "en": "After a gathering, do you replay what happened on the way home?", "options": [{"key": "yes", "scores": {"memory": 4, "solitude": 3}}, {"key": "no", "scores": {"light": 2, "body": 1}}, {"key": "maybe", "scores": {"memory": 1, "solitude": 1}}]}, {"zh": "你会在聊天里用玩笑把尴尬场面接过去吗？", "ja": "会話で気まずい空気を冗談でつなぐ？", "en": "Do you use jokes to get through awkward moments in conversation?", "options": [{"key": "yes", "scores": {"humor": 5, "intimacy": 2}}, {"key": "no", "scores": {"solitude": 2, "life": 1}}, {"key": "maybe", "scores": {"humor": 1}}]}, {"zh": "心情不好时，你会主动约人吃饭或散步吗？", "ja": "気分が落ちたとき、自分から食事や散歩に誘う？", "en": "When you feel low, do you ask someone to eat or walk with you?", "options": [{"key": "yes", "scores": {"intimacy": 4, "light": 3, "forward": 1}}, {"key": "no", "scores": {"solitude": 4, "memory": 1}}, {"key": "maybe", "scores": {"intimacy": 1, "solitude": 1}}]}, {"zh": "心情不好时，你会更想一个人坐车或走路吗？", "ja": "気分が落ちたとき、一人で移動したり歩いたりしたい？", "en": "When you feel low, do you prefer riding or walking alone?", "options": [{"key": "yes", "scores": {"solitude": 5, "memory": 2}}, {"key": "no", "scores": {"intimacy": 3, "light": 1}}, {"key": "maybe", "scores": {"solitude": 1}}]}, {"zh": "你会把普通的一顿饭、一段路记成很重要的片段吗？", "ja": "普通の食事や道のりを、大事な場面として覚える？", "en": "Can an ordinary meal or walk become an important memory for you?", "options": [{"key": "yes", "scores": {"life": 4, "memory": 4, "intimacy": 2}}, {"key": "no", "scores": {"forward": 1, "chaos": 1}}, {"key": "maybe", "scores": {"life": 1, "memory": 1}}]}, {"zh": "你会给不同状态分别建不同歌单吗？", "ja": "気分ごとにプレイリストを分けて作る？", "en": "Do you make different playlists for different moods?", "options": [{"key": "yes", "scores": {"life": 3, "memory": 3, "rebuild": 2}}, {"key": "no", "scores": {"chaos": 2, "body": 2}}, {"key": "maybe", "scores": {"life": 1, "memory": 1}}]}, {"zh": "你会在出门前为了气氛选今天第一首歌吗？", "ja": "出かける前、その日の一曲目を選ぶ？", "en": "Before going out, do you choose the first song for the day's mood?", "options": [{"key": "yes", "scores": {"light": 3, "forward": 3, "body": 2}}, {"key": "no", "scores": {"life": 1, "solitude": 1}}, {"key": "maybe", "scores": {"light": 1, "body": 1}}]}, {"zh": "你会把喜欢的歌词或歌名拿来当社媒文案吗？", "ja": "好きな歌詞や曲名をSNSの文に使う？", "en": "Do you use favorite lyrics or song titles in social posts?", "options": [{"key": "yes", "scores": {"memory": 3, "intimacy": 3, "light": 1}}, {"key": "no", "scores": {"solitude": 2, "life": 1}}, {"key": "maybe", "scores": {"memory": 1, "intimacy": 1}}]}, {"zh": "你会因为一首歌突然想起某个城市或季节吗？", "ja": "一曲で急に街や季節を思い出す？", "en": "Can a song suddenly remind you of a city or season?", "options": [{"key": "yes", "scores": {"memory": 5, "light": 2}}, {"key": "no", "scores": {"body": 1, "forward": 1}}, {"key": "maybe", "scores": {"memory": 1}}]}, {"zh": "你会在难过时选择节奏很强的歌，而不是慢歌吗？", "ja": "落ち込んだとき、バラードよりリズムの強い曲を選ぶ？", "en": "When sad, do you choose rhythmic songs over ballads?", "options": [{"key": "yes", "scores": {"body": 5, "rebuild": 2, "light": 1}}, {"key": "no", "scores": {"solitude": 3, "memory": 2}}, {"key": "maybe", "scores": {"body": 1, "solitude": 1}}]}, {"zh": "你会在很累时还坚持把今天必须做的事做完吗？", "ja": "かなり疲れていても、その日の必須タスクを終わらせる？", "en": "Even when very tired, do you finish the tasks that must be done today?", "options": [{"key": "yes", "scores": {"life": 4, "forward": 4}}, {"key": "no", "scores": {"solitude": 2, "rebuild": 1}}, {"key": "maybe", "scores": {"life": 1, "forward": 1}}]}, {"zh": "你会因为一个小错误反复想很久吗？", "ja": "小さなミスを長く考え続ける？", "en": "Do you think about a small mistake for a long time?", "options": [{"key": "yes", "scores": {"solitude": 4, "memory": 3}}, {"key": "no", "scores": {"humor": 2, "forward": 2}}, {"key": "maybe", "scores": {"memory": 1, "solitude": 1}}]}, {"zh": "遇到突发空档，你会马上找咖啡店、书店或公园坐下吗？", "ja": "急に空き時間ができたら、カフェ・本屋・公園を探す？", "en": "When you suddenly have free time, do you look for a cafe, bookstore, or park?", "options": [{"key": "yes", "scores": {"life": 3, "light": 2, "solitude": 2}}, {"key": "no", "scores": {"forward": 2, "body": 1}}, {"key": "maybe", "scores": {"life": 1}}]}, {"zh": "你会在演出或电影结束后等片尾/散场音乐放完吗？", "ja": "映画や公演の後、エンドロールや終演音楽を最後まで待つ？", "en": "After a film or show, do you stay until the credits or ending music finishes?", "options": [{"key": "yes", "scores": {"memory": 4, "solitude": 2, "life": 2}}, {"key": "no", "scores": {"forward": 2, "body": 1}}, {"key": "maybe", "scores": {"memory": 1}}]}, {"zh": "你会给朋友发一首歌来表达“不知道怎么说”的心情吗？", "ja": "言葉にしにくい気持ちを、曲を送って伝える？", "en": "Do you send a song to express a feeling you can't put into words?", "options": [{"key": "yes", "scores": {"intimacy": 5, "memory": 2}}, {"key": "no", "scores": {"solitude": 3, "life": 1}}, {"key": "maybe", "scores": {"intimacy": 1, "memory": 1}}]}, {"zh": "你会在出门当天临时改变穿搭或路线来配合心情吗？", "ja": "当日、気分に合わせて服装やルートを変える？", "en": "On the day itself, do you change your outfit or route to match your mood?", "options": [{"key": "yes", "scores": {"chaos": 2, "body": 3, "light": 2}}, {"key": "no", "scores": {"life": 3, "rebuild": 1}}, {"key": "maybe", "scores": {"body": 1, "life": 1}}]}, {"zh": "你会把重要日期记在日历或备忘录里吗？", "ja": "大事な日付をカレンダーやメモに入れる？", "en": "Do you save important dates in your calendar or notes?", "options": [{"key": "yes", "scores": {"life": 4, "memory": 4}}, {"key": "no", "scores": {"chaos": 2, "humor": 1}}, {"key": "maybe", "scores": {"life": 1, "memory": 1}}]}, {"zh": "遇到排队或等待，你会立刻戴上耳机吗？", "ja": "並ぶ時間や待ち時間に、すぐイヤホンをつける？", "en": "When waiting in line, do you put on earphones right away?", "options": [{"key": "yes", "scores": {"solitude": 3, "body": 2, "memory": 1}}, {"key": "no", "scores": {"intimacy": 2, "life": 1}}, {"key": "maybe", "scores": {"solitude": 1}}]}, {"zh": "你会为了看清舞台、球场或现场细节提前研究座位视角吗？", "ja": "舞台や会場の見え方を、事前に座席から調べる？", "en": "Do you research seat views in advance to see stage or venue details clearly?", "options": [{"key": "yes", "scores": {"life": 4, "memory": 3, "rebuild": 2}}, {"key": "no", "scores": {"chaos": 2, "light": 1}}, {"key": "maybe", "scores": {"life": 1, "memory": 1}}]}, {"zh": "你会在喜欢的歌响起时忍不住走得更快吗？", "ja": "好きな曲が流れると、歩く速度が上がる？", "en": "When a favorite song plays, do you start walking faster?", "options": [{"key": "yes", "scores": {"body": 5, "forward": 2, "light": 1}}, {"key": "no", "scores": {"solitude": 2, "life": 1}}, {"key": "maybe", "scores": {"body": 1}}]}, {"zh": "你会保留旧聊天、旧照片、旧截图很久吗？", "ja": "昔のチャット・写真・スクショを長く残す？", "en": "Do you keep old chats, photos, or screenshots for a long time?", "options": [{"key": "yes", "scores": {"memory": 5, "intimacy": 2}}, {"key": "no", "scores": {"forward": 2, "rebuild": 2}}, {"key": "maybe", "scores": {"memory": 1}}]}, {"zh": "你会定期清理歌单，把已经不适合现在的歌删掉吗？", "ja": "今の自分に合わない曲を、プレイリストから整理する？", "en": "Do you clean up playlists and remove songs that no longer fit you?", "options": [{"key": "yes", "scores": {"rebuild": 4, "life": 3}}, {"key": "no", "scores": {"memory": 3, "solitude": 1}}, {"key": "maybe", "scores": {"rebuild": 1, "memory": 1}}]}, {"zh": "你会在社交场合里主动负责订位、查路或控时间吗？", "ja": "人と出かけるとき、予約・道順・時間管理を引き受ける？", "en": "When going out with others, do you handle reservations, routes, or timing?", "options": [{"key": "yes", "scores": {"life": 5, "rebuild": 2, "intimacy": 2}}, {"key": "no", "scores": {"chaos": 2, "humor": 1}}, {"key": "maybe", "scores": {"life": 1, "intimacy": 1}}]}, {"zh": "你听歌时会注意鼓点、贝斯或乐器进入的时机吗？", "ja": "曲を聴くとき、ドラム・ベース・楽器が入るタイミングを気にする？", "en": "When listening to music, do you notice when the drums, bass, or instruments come in?", "options": [{"key": "yes", "scores": {"body": 3, "memory": 2, "life": 1}}, {"key": "no", "scores": {"light": 2, "forward": 1}}, {"key": "maybe", "scores": {"body": 1, "memory": 1}}]}, {"zh": "你会把“今天先活下来”当成一种实际目标吗？", "ja": "『今日はまず生き延びる』を現実的な目標にすることがある？", "en": "Do you sometimes treat “just get through today” as a practical goal?", "options": [{"key": "yes", "scores": {"life": 4, "forward": 3, "solitude": 2}}, {"key": "no", "scores": {"light": 2, "body": 1}}, {"key": "maybe", "scores": {"life": 1, "solitude": 1}}]}, {"zh": "你会因为看到别人很开心而自己也跟着开心吗？", "ja": "誰かが楽しそうだと、自分も楽しくなる？", "en": "Do you get happy when you see someone else having fun?", "options": [{"key": "yes", "scores": {"light": 4, "intimacy": 3}}, {"key": "no", "scores": {"solitude": 2, "memory": 1}}, {"key": "maybe", "scores": {"light": 1, "intimacy": 1}}]}, {"zh": "你会在不想解释时直接发一个表情包或梗图吗？", "ja": "説明したくないとき、スタンプやネタ画像で返す？", "en": "When you don't want to explain, do you reply with a meme or sticker?", "options": [{"key": "yes", "scores": {"humor": 5, "chaos": 2}}, {"key": "no", "scores": {"solitude": 2, "life": 1}}, {"key": "maybe", "scores": {"humor": 1}}]}, {"zh": "你会在遇到新城市时先随便走一段再看地图吗？", "ja": "新しい街で、まず少し歩いてから地図を見る？", "en": "In a new city, do you walk around first before checking the map?", "options": [{"key": "yes", "scores": {"forward": 3, "chaos": 2, "body": 2}}, {"key": "no", "scores": {"life": 3, "rebuild": 2}}, {"key": "maybe", "scores": {"forward": 1, "life": 1}}]}, {"zh": "你会把一首歌和某个人强烈绑定在一起吗？", "ja": "一曲を特定の誰かと強く結びつける？", "en": "Do you strongly associate a song with a specific person?", "options": [{"key": "yes", "scores": {"intimacy": 5, "memory": 4}}, {"key": "no", "scores": {"solitude": 1, "forward": 1}}, {"key": "maybe", "scores": {"intimacy": 1, "memory": 1}}]}, {"zh": "你会为了确认自己的状态，回头听以前某个时期常听的歌吗？", "ja": "今の自分を確かめるために、昔よく聴いた曲を聴き返す？", "en": "Do you revisit songs from an earlier period to check how you feel now?", "options": [{"key": "yes", "scores": {"memory": 5, "rebuild": 3, "solitude": 2}}, {"key": "no", "scores": {"forward": 2, "light": 1}}, {"key": "maybe", "scores": {"memory": 1, "rebuild": 1}}]}];
+
+    const app = document.getElementById("app");
+    const headerTitle = document.getElementById("headerTitle");
+    const actions = document.getElementById("actions");
+
+    let language = null;
+    let started = false;
+    let index = 0;
+    let answers = [];
+    let copiedTimer = null;
+    const keys = ["life", "forward", "solitude", "humor", "body", "light", "chaos", "memory", "intimacy", "rebuild"];
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, s => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[s]));
+    }
+
+    function addScores(base, add) {
+      const next = { ...base };
+      Object.entries(add || {}).forEach(([key, value]) => next[key] = (next[key] || 0) + value);
+      return next;
+    }
+
+    function getUserScores() {
+      return answers.reduce((acc, score) => addScores(acc, score), {});
+    }
+
+    function distance(userScores, resultScores) {
+      return keys.reduce((sum, key) => sum + Math.abs((userScores[key] || 0) - (resultScores[key] || 0) * 3.25), 0);
+    }
+
+    function getFinalResult() {
+      const userScores = getUserScores();
+      return [...results].map(r => ({ ...r, d: distance(userScores, r.scores) })).sort((a, b) => a.d - b.d)[0];
+    }
+
+    function reset() {
+      started = false;
+      index = 0;
+      answers = [];
+      render();
+    }
+
+    function backToLanguage() {
+      language = null;
+      started = false;
+      index = 0;
+      answers = [];
+      render();
+    }
+
+    function renderActions() {
+      const t = language ? ui[language] : ui.zh;
+      actions.innerHTML = "";
+      if (language) {
+        const langBtn = document.createElement("button");
+        langBtn.className = "pill-btn";
+        langBtn.textContent = "🌐 " + t.changeLanguage;
+        langBtn.onclick = backToLanguage;
+        actions.appendChild(langBtn);
+      }
+      if (language && (started || answers.length > 0)) {
+        const resetBtn = document.createElement("button");
+        resetBtn.className = "pill-btn";
+        resetBtn.textContent = "↻ " + t.reset;
+        resetBtn.onclick = reset;
+        actions.appendChild(resetBtn);
+      }
+    }
+
+    function renderLanguage() {
+      const t = ui.zh;
+      headerTitle.textContent = t.headerTitle;
+      app.innerHTML = `
+        <section class="card">
+          <h2 class="title">${escapeHtml(t.chooseLanguageTitle)}</h2>
+          <div class="grid3">
+            ${languages.map(lang => `
+              <button class="lang-btn" data-lang="${lang.key}">
+                <span class="lang-code">${lang.key.toUpperCase()}</span>
+                <span class="lang-label">${escapeHtml(lang.label)}</span>
+              </button>
+            `).join("")}
+          </div>
+        </section>
+      `;
+      document.querySelectorAll("[data-lang]").forEach(btn => {
+        btn.onclick = () => {
+          language = btn.dataset.lang;
+          started = false;
+          index = 0;
+          answers = [];
+          render();
+        };
+      });
+    }
+
+    function renderStart() {
+      const t = ui[language];
+      headerTitle.textContent = t.headerTitle;
+      app.innerHTML = `
+        <section class="card">
+          <h2 class="title">${escapeHtml(t.startTitle)}</h2>
+          <button class="primary" id="startBtn">${escapeHtml(t.startButton)}</button>
+        </section>
+      `;
+      document.getElementById("startBtn").onclick = () => {
+        started = true;
+        render();
+      };
+    }
+
+
+    function goBackQuestion() {
+      if (index > 0) {
+        answers.pop();
+        index -= 1;
+        render();
+      }
+    }
+
+    function renderQuestion() {
+      const q = questions[index];
+      const t = ui[language];
+      const progress = Math.round((index / questions.length) * 100);
+      app.innerHTML = `
+        <section class="card">
+          <div class="progress-meta">
+            <span>Q${index + 1} / ${questions.length}</span>
+            <span>${progress}%</span>
+          </div>
+          <div class="bar"><div class="bar-inner" style="width:${progress}%"></div></div>
+          <h2 class="q-title">${escapeHtml(q[language])}</h2>
+          <div class="answer-grid">
+            ${q.options.map(option => `
+              <button class="option" data-option="${option.key}">
+                ${escapeHtml(t[option.key])}
+              </button>
+            `).join("")}
+          </div>
+          ${index > 0 ? `<div class="nav-row"><button class="back-question" id="prevQuestionBtn">← ${escapeHtml(t.prev)}</button></div>` : ""}
+        </section>
+      `;
+      document.querySelectorAll("[data-option]").forEach(btn => {
+        btn.onclick = () => {
+          const option = q.options.find(o => o.key === btn.dataset.option);
+          answers.push(option.scores);
+          if (index < questions.length - 1) index += 1;
+          else index = questions.length;
+          render();
+        };
+      });
+      const prevBtn = document.getElementById("prevQuestionBtn");
+      if (prevBtn) prevBtn.onclick = goBackQuestion;
+    }
+
+    async function copyResult(text, btn) {
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = ui[language].copied;
+        clearTimeout(copiedTimer);
+        copiedTimer = setTimeout(() => btn.textContent = ui[language].copyResult, 1800);
+      } catch (e) {
+        const area = document.createElement("textarea");
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        document.body.removeChild(area);
+        btn.textContent = ui[language].copied;
+      }
+    }
+
+    function renderResult() {
+      const t = ui[language];
+      const result = getFinalResult();
+      const text = result[language];
+      const shareText = `${t.sharePrefix} ${result.artist}《${result.song}》。${t.shareTag}`;
+
+      app.innerHTML = `
+        <section class="card result-card">
+          <div class="result-head">
+            <div class="eyebrow">${escapeHtml(t.resultEyebrow)}</div>
+            <h2 class="song">${escapeHtml(result.song)}</h2>
+            <div class="artist">${escapeHtml(result.artist)}</div>
+          </div>
+          <div class="result-body">
+            <div class="type">${escapeHtml(text[0])}</div>
+            <p class="desc">${escapeHtml(text[1])}</p>
+            <div class="tags">
+              ${text[2].map(tag => `<span class="tag">#${escapeHtml(tag)}</span>`).join("")}
+            </div>
+            <div class="btn-row">
+              <button class="primary" id="copyBtn">${escapeHtml(t.copyResult)}</button>
+              <button class="ghost" id="againBtn">${escapeHtml(t.again)}</button>
+            </div>
+          </div>
+        </section>
+      `;
+      document.getElementById("copyBtn").onclick = (e) => copyResult(shareText, e.currentTarget);
+      document.getElementById("againBtn").onclick = reset;
+    }
+
+    function render() {
+      renderActions();
+      if (!language) renderLanguage();
+      else if (!started) renderStart();
+      else if (index < questions.length) renderQuestion();
+      else renderResult();
+    }
+
+    render();
+  </script>
+</body>
+</html>
